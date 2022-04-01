@@ -7,20 +7,29 @@ import "./Card-item.styles.css";
 const CardItem = ({ card, cards, setCards }) => {
 	const { title, imageUrl, isActive } = card; 
 	
-	const closeAllCards = () => {
-		setCards(cards.forEach(card => 
-			card.isActive = false))
+	// this func is to allow cards to fold in order for only one card to expand at one time; 
+	// const closeAllCards = () => {
+	// 	setCards(cards.forEach(item => item.isActive = false)); 
+	// }
+
+	// const expandHandler = () => {
+	// 	closeAllCards();
+	// 	setCards(cards.map(item => {
+	// 		if (item.id === card.id) {
+	// 			return {...card, isActive:!card.isActive}
+	// 		}
+	// 		return item;
+	// 	}))
+	// }
+
+	// The following function is another way of achieving the same functionality by chaining two map() methods; 
+	const expandHandler = () => {
+		setCards(cards
+			.map(item => item && {...item, isActive: false})
+			.map(item => item.id === card.id ? {...card, isActive: true} : item)
+		)
 	}
 
-	const expandHandler = () => {
-		setCards(cards.map(item => {
-			closeAllCards(); 
-			if (item.id === card.id) {
-				return {...card, isActive:!card.isActive}
-			}
-			return item; 
-		}))
-	}
 
 	return (
 		<div
